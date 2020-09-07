@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/">
+        <file>icons/TI_rulesoptions_configuration.gif</file>
+        <file>icons/filter.png</file>
+        <file>icons/TI_analyze_project.png</file>
+        <file>icons/TI_icon.png</file>
+        <file>icons/TI_cancel_analysis.png</file>
+        <file>icons/filter-outline.png</file>
+        <file>icons/TI_analyze_file.png</file>
+    </qresource>
+</RCC>

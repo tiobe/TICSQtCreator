@@ -1,0 +1,14 @@
+{
+    "Name" : "TICSQtCreator",
+    "Version" : "0.0.1",
+    "CompatVersion" : "0.0.1",
+    "Vendor" : "TIOBESoftware",
+    "Copyright" : "(C) TIOBE Software B.V",
+    "License" : "Put your license information here",
+    "Description" : "This plugin provides TICS analysis functionalities inside Qt Creator",
+    "Url" : "http://www.tiobe.com",
+    "Dependencies" : [
+        { "Name" : "Core", "Version" : "4.12.2" },
+        { "Name" : "ProjectExplorer", "Version" : "4.12.2" }
+    ]
+}
