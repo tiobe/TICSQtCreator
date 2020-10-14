@@ -19,8 +19,6 @@ Install QT
     sudo chmod +x qt-opensource-linux-x64-5.14.2.run
 - Run the installer script
  ./qt-opensource-linux-x64-5.14.2.run
-- This requires a QT account. But of you want to continue without one you have to prevent QT from connecting home
-    You can prevent the installer from phoning home by setting 0.0.0.0:123 as a proxy [see source](https://superuser.com/questions/1524977/cant-skip-login-in-qt-installer)
 - Once the installation starts, and you get a selection of options, select Qt - u can deselect some of the components but Qt webengine Qt script and compiler gcc are important
 
 Build Qt Creator from Sources
