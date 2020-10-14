@@ -11,7 +11,7 @@ namespace Internal {
 class TicsOutputPane : public Core::IOutputPane
 {
 public:
-    TicsOutputPane(QObject * parent,QTextBrowser * textBrowser);
+    TicsOutputPane(QObject * parent);
     QWidget* outputWidget( QWidget* parent );
     QList<QWidget*> toolBarWidgets() const;
     QString displayName() const;
@@ -29,6 +29,8 @@ public:
     QTextBrowser *textEdit;
     void writeText(QString text);
     void clear();
+public slots:
+    void openFileLink(const QUrl & url);
 
 };
 }

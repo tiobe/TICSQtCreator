@@ -34,7 +34,7 @@ public:
 
 public slots:
     void handleReadyRead();
-    void openFileLink(const QUrl & url);
+   // void openFileLink(const QUrl & url);
     void handleTicsProcessStarted();
     void handleTicsProcessStopped(int exitCode, QProcess::ExitStatus exitStatus);
 

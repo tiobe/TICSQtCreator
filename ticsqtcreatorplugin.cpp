@@ -86,12 +86,7 @@ bool TICSQtCreatorPlugin::initialize(const QStringList &arguments, QString *erro
 
     connect(&ticsProcess, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(handleTicsProcessStopped(int, QProcess::ExitStatus)));
 
-
-    QTextBrowser * textEdit = new QTextBrowser();
-    textEdit->setOpenLinks(false);
-    connect(textEdit, &QTextBrowser::anchorClicked,this,&TICSQtCreatorPlugin::openFileLink);
-
-    ticsOutput = new TicsOutputPane(this,textEdit);
+    ticsOutput = new TicsOutputPane(this);
 
     Core::ActionContainer* ticsMenu = Core::ActionManager::createMenu(Constants::TICS_MENU_TITLE);
     ticsMenu->menu()->setTitle("TICS");
@@ -242,12 +237,6 @@ void TICSQtCreatorPlugin::handleTicsProcessStopped(int exitCode, QProcess::ExitS
     analyzeProjectAction->setEnabled(true);
     cancelTicsAction->setEnabled(false);
     filesList = nullptr;
-}
-
-void TICSQtCreatorPlugin::openFileLink(const QUrl & url)
-{
-    qInfo()<< "Opening file" << url.path() << "at line " << url.fragment();
-    Core::EditorManager::openEditorAt(url.path(),url.fragment().toInt());
 }
 
 void TICSQtCreatorPlugin::configureTICS(){
