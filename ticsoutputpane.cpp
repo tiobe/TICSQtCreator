@@ -8,11 +8,9 @@ namespace Internal {
 
 TicsOutputPane::TicsOutputPane(QObject* parent): IOutputPane( parent )
 {
-
     this->textEdit = new QTextBrowser();
     textEdit->setOpenLinks(false);
     connect(textEdit, &QTextBrowser::anchorClicked,this,&TicsOutputPane::openFileLink);
-    this->textEdit->append("<a href=\"www.tiobe.com\">TIOBE SOFTWARE B.V</a>");
 }
 
 QWidget* TicsOutputPane::outputWidget( QWidget* parent ){
@@ -32,14 +30,7 @@ int TicsOutputPane::priorityInStatusBar() const{
 }
 void TicsOutputPane::clearContents(){
     textEdit->clear();
-//    textEdit = new QTextBrowser();
-//    textEdit->setOpenLinks(false);
-//    connect(textEdit, &QTextBrowser::anchorClicked,this,&TicsOutputPane::openFileLink);
-   // textEdit->append("<a href=\"www.tiobe.com\">TIOBE SOFTWARE B.V</a>");
     textEdit->document()->clear();
-
-
-
 }
 void TicsOutputPane::visibilityChanged( bool visible ){
     Q_UNUSED( visible );
