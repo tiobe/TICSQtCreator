@@ -1,15 +1,18 @@
 #include "ticsoutputpane.h"
 #include "ticsqtcreatorplugin.h"
+#include <coreplugin/editormanager/editormanager.h>
 
 namespace TICSQtCreator {
 namespace Internal {
 
 
-TicsOutputPane::TicsOutputPane(QObject* parent,QTextBrowser * textBrowser): IOutputPane( parent )
+TicsOutputPane::TicsOutputPane(QObject* parent): IOutputPane( parent )
 {
 
-    this->textEdit = textBrowser;
-
+    this->textEdit = new QTextBrowser();
+    textEdit->setOpenLinks(false);
+    connect(textEdit, &QTextBrowser::anchorClicked,this,&TicsOutputPane::openFileLink);
+    this->textEdit->append("<a href=\"www.tiobe.com\">TIOBE SOFTWARE B.V</a>");
 }
 
 QWidget* TicsOutputPane::outputWidget( QWidget* parent ){
@@ -29,6 +32,13 @@ int TicsOutputPane::priorityInStatusBar() const{
 }
 void TicsOutputPane::clearContents(){
     textEdit->clear();
+//    textEdit = new QTextBrowser();
+//    textEdit->setOpenLinks(false);
+//    connect(textEdit, &QTextBrowser::anchorClicked,this,&TicsOutputPane::openFileLink);
+   // textEdit->append("<a href=\"www.tiobe.com\">TIOBE SOFTWARE B.V</a>");
+    textEdit->document()->clear();
+
+
 
 }
 void TicsOutputPane::visibilityChanged( bool visible ){
@@ -60,7 +70,7 @@ void TicsOutputPane::goToPrev(){
 }
 
 void TicsOutputPane::writeText(QString text){
-
+    qDebug() << "write text"<<endl;
     //matches violation trace file paths
     QRegularExpression re("^(.*)\\(([0-9]+)\\):$",QRegularExpression::MultilineOption);
     QRegularExpressionMatch match = re.match(text);
@@ -79,6 +89,12 @@ void TicsOutputPane::writeText(QString text){
     }
 
     textEdit->append(text);
+}
+
+void TicsOutputPane::openFileLink(const QUrl & url)
+{
+    qInfo()<< "Opening file" << url.path() << "at line " << url.fragment();
+    Core::EditorManager::openEditorAt(url.path(),url.fragment().toInt());
 }
 
 }
