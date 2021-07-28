@@ -12,6 +12,8 @@ const char CANCEL_ANALYSIS_ACTION_ID[] = "TICSQtCreator.CancelAnalysis";
 const char TICS_MENU_ID[] = "TICSQtCreator.Menu";
 const char TICS_MENU_TITLE[] = "TICSQtCreator";
 
+const char TICS_TASK_ID[] = "TICSQtCreator.TICSQtCreatorTaskId";
+
 } // namespace TICSQtCreator
 } // namespace Constants
 
