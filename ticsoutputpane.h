@@ -27,11 +27,17 @@ public:
     void goToNext();
     void goToPrev();
     QTextBrowser *textEdit;
-    void writeText(QString text);
+    void writeLine(QString line);
     void clear();
+    void resetViolationDetection();
 public slots:
     void openFileLink(const QUrl & url);
 
+private:
+    bool violationDetected;
+    int lineNumber;
+    QString filePath;
+    QString description;
 };
 }
 }

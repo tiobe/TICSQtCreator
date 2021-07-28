@@ -18,6 +18,7 @@
 #include <projectexplorer/session.h>
 #include <projectexplorer/compileoutputwindow.h>
 #include <projectexplorer/buildstep.h>
+#include <projectexplorer/taskhub.h>
 
 
 #include <QProcess>
@@ -117,6 +118,8 @@ bool TICSQtCreatorPlugin::initialize(const QStringList &arguments, QString *erro
                              tr("TICS Environment Variable not set. TICS plugin actions will be disabled."));
     }
 
+    ProjectExplorer::TaskHub::addCategory(Constants::TICS_TASK_ID, "TiCS Tasks");
+
     return true;
 }
 
@@ -161,6 +164,8 @@ void TICSQtCreatorPlugin::analyzeFile(){
     }
     arguments << IDE_PARAMETER << IDE_NAME;
     arguments << document->filePath().toString();
+    ProjectExplorer::TaskHub::clearTasks(Constants::TICS_TASK_ID);
+    ticsOutput->resetViolationDetection();
     ticsOutput->clearContents();
     ticsOutput->popup(Core::IOutputPane::ModeSwitch);
     ticsProcess.start(TICS_COMMAND, arguments); // start returns immediately
@@ -209,6 +214,8 @@ void TICSQtCreatorPlugin::analyzeProject(){
      *
      */
 
+    ProjectExplorer::TaskHub::clearTasks(Constants::TICS_TASK_ID);
+    ticsOutput->resetViolationDetection();
     ticsOutput->clearContents();
     ticsOutput->popup(Core::IOutputPane::ModeSwitch);
     ticsProcess.start(TICS_COMMAND, arguments); // start returns immediately
@@ -217,9 +224,11 @@ void TICSQtCreatorPlugin::analyzeProject(){
 
 void TICSQtCreatorPlugin::handleReadyRead()
 {
-    QByteArray p_stdout = ticsProcess.readAllStandardOutput();
-    QString s_stdout= QString::fromUtf8(p_stdout);
-    ticsOutput->writeText(s_stdout);
+    while(ticsProcess.canReadLine()){
+        QByteArray p_stdout = ticsProcess.readLine();
+        QString s_stdout= QString::fromUtf8(p_stdout);
+        ticsOutput->writeLine(s_stdout);
+    }
 }
 
 void TICSQtCreatorPlugin::handleTicsProcessStarted()
@@ -248,9 +257,9 @@ void TICSQtCreatorPlugin::configureTICS(){
 void TICSQtCreatorPlugin::cancelAnalysis(){
     //Check if tics process is running.
     if(ticsProcess.processId()!=0){
-        ticsOutput->writeText("Canceling Analysis...");
+        ticsOutput->writeLine("Canceling Analysis...");
         ticsProcess.kill();
-        ticsOutput->writeText("Analysis cancelled!");
+        ticsOutput->writeLine("Analysis cancelled!");
     }
     return;
 }
