@@ -75,8 +75,10 @@ RUN mkdir qt-creator-build && \
 
 # Build TICS Qt Plugin
 ARG QT_CREATOR_DEFAULT_VERSION='4.12.2'
+ARG TICS_QT_GIT_BRANCH='main'
 RUN git clone https://github.com/tiobe/TICSQtCreator.git && \
     cd TICSQtCreator && \
+    git checkout ${TICS_QT_GIT_BRANCH} && \
     sed -i s/${QT_CREATOR_DEFAULT_VERSION}/${QT_CREATOR_VERSION}/g TICSQtCreator.json && \
     export PATH=$PATH:/qt/qtbase/bin && \
     qmake IDE_SOURCE_TREE=/qt-creator IDE_BUILD_TREE=/qt-creator-build && \
