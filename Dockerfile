@@ -57,15 +57,14 @@ RUN cd /qt/${QT_ARCHIVE_PKG} && \
 RUN cd /qt/${QT_ARCHIVE_PKG} && \
     make install
 
-# Build Qt Creator 4.*.*
+# Check out the correct Qt Creator branch to build with
 ARG QT_CREATOR_VERSION='4.11.0'
 ARG QT_CREATOR_TAG=v${QT_CREATOR_VERSION}
-
-# Check out the correct Qt Creator branch to build with
 RUN git clone https://github.com/qt-creator/qt-creator.git && \
     cd qt-creator && \
     git checkout -b ${QT_CREATOR_VERSION} ${QT_CREATOR_TAG}
 
+# Build Qt Creator 4.*.*
 RUN mkdir qt-creator-build && \
     cd /qt-creator-build && \
     export PATH=$PATH:/qt/qtbase/bin && \
