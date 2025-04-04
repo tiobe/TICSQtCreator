@@ -68,23 +68,18 @@ Building the Qt Creator Plugin
 
 Using Dockerfile to Automate the Qt Creator Plugin Build
 --------------------------------------------------------
-<<<<<<< HEAD
+
 You can use the provided Dockerfile to build and get a working TICS Qt Creator Plugin artifact for a specific target platform.
 Note that this Dockerfile is written for target platform Qt Creator 4.x.x based on Qt 5.x.x. Target platforms with different major versions than those may require different build steps.
-=======
+
 You can use the provided Dockerfile to build and get a working TICS Qt Creator Plugin artifact for specific target platforms.
->>>>>>> daf1fbe8fb50a4012e5b596a0b8def70b0f92c5d
 The arguments used for parameterizing specific target platforms and their values are shown below:
 
 <pre>
 DISTRO=ubuntu
 VERSION=20.04
 GCC_VERSION=7
-<<<<<<< HEAD
 LLVM_ARCHIVE=libclang-release_80-based-linux-Ubuntu16.04-gcc5.3-x86_64.7z
-=======
-LLVM_ARCHIVE=libclang-release_80-based-linux-Ubuntu16.04-gcc5.3-x86_64.7z  
->>>>>>> daf1fbe8fb50a4012e5b596a0b8def70b0f92c5d
 QT_ARCHIVE_PKG=qt-everywhere-src-5.12.8
 QT_ARCHIVE_URL=https://download.qt.io/archive/qt/5.12/5.12.8/single/qt-everywhere-src-5.12.8.tar.xz
 QT_CREATOR_VERSION=4.11.0
@@ -92,7 +87,6 @@ TICS_QT_GIT_BRANCH=main
 </pre>
 
 You can change the values of these arguments based on your desired target platforms when building the Dockerfile. The following command shows an example of building the TICS Qt Creator plugin for target platform Qt Creator 4.12.2 based on Qt 5.14.2:
-
 ```
 docker build --build-arg GCC_VERSION=7 --build-arg QT_ARCHIVE_PKG=qt-everywhere-src-5.14.2 --build-arg QT_ARCHIVE_URL=https://download.qt.io/archive/qt/5.14/5.14.2/single/qt-everywhere-src-5.14.2.tar.xz  --build-arg QT_CREATOR_VERSION=4.12.2 -t ticsqtcreator:4-12-2 .
 ```
@@ -100,13 +94,9 @@ The command above will create an image with the tag `ticsqtcreator:4-12-2`. The 
 
 ```
 docker run -it -d --name ticsqtcreator fddf7a31202a
-docker cp ticsqtcreator:/qt-creator-build/lib/qtcreator/plugins/libTICSQtCreator.so /home/leila/Development/QtDocker/v4
+docker cp ticsqtcreator:/qt-creator-build/lib/qtcreator/plugins/libTICSQtCreator.so /home/leila/Development/QtDocker
 ```
 
-<<<<<<< HEAD
-
-=======
->>>>>>> daf1fbe8fb50a4012e5b596a0b8def70b0f92c5d
 ## References
 - [Qt wiki page on building QT creator from sources](https://wiki.qt.io/Building_Qt_Creator_from_Git)
 - [A working example of Qt Creator with tutorial](http://blog.davidecoppola.com/2019/12/how-to-create-a-qt-creator-plugin/)
