@@ -33,7 +33,7 @@ RUN mkdir llvm && \
     wget ${LLVM_ARCHIVE_URL} && \
     7z x ${LLVM_ARCHIVE} -o/llvm/llvm-pkg
 
-# Install Qt 5.*.*
+# Build and install Qt 5.*.*
 ARG QT_ARCHIVE_PKG='qt-everywhere-src-5.12.8'
 ARG QT_ARCHIVE_FILE=${QT_ARCHIVE_PKG}.tar.xz
 ARG QT_ARCHIVE_URL='https://download.qt.io/archive/qt/5.12/5.12.8/single/qt-everywhere-src-5.12.8.tar.xz'
@@ -42,13 +42,18 @@ RUN mkdir qt && \
     wget ${QT_ARCHIVE_URL}
 RUN cd qt && \
     tar xf ${QT_ARCHIVE_FILE}
-
+      
+ARG QT_CONFIGURE_CMD='./configure -opensource -confirm-license -nomake tests -nomake examples -prefix /qt/qtbase -skip qt3d -skip qtgamepad -skip qtspeech -skip qtdoc -skip qtsensors -skip qtdatavis3d -skip qtcharts -skip qtandroidextras -skip qtmacextras -skip qtvirtualkeyboard -skip qtcharts -skip qtpurchasing -skip qtserialbus -skip qtserialport -skip qtlocation -skip qtconnectivity -skip qttranslations'
+ARG SKIP_QUICK3D='-skip qtquick3d' 
 RUN cd /qt && \
     mkdir qtbase && \
     cd /qt/${QT_ARCHIVE_PKG} && \
-    ./configure -opensource -confirm-license -nomake tests -nomake examples -prefix /qt/qtbase -skip qt3d -skip qtquick3d -skip qtgamepad \
-    -skip qtspeech -skip qtdoc -skip qtsensors -skip qtdatavis3d -skip qtcharts -skip qtandroidextras -skip qtmacextras -skip qtvirtualkeyboard \
-    -skip qtcharts -skip qtpurchasing -skip qtserialbus -skip qtserialport -skip qtlocation
+    if [ -d /qt/${QT_ARCHIVE_PKG}/qtquick3d ]; then \
+      ${QT_CONFIGURE_CMD} ${SKIP_QUICK3D}; \
+    else \
+      ${QT_CONFIGURE_CMD}; \
+    fi;
+     
 RUN cd /qt/${QT_ARCHIVE_PKG} && \
     export LLVM_HOME=/llvm/llvm-pkg/libclang && \
     export PATH=$LLVM_HOME/bin:$PATH && \
