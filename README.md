@@ -94,7 +94,7 @@ Some remarks for building TICS Qt Creator plugin for target platforms Qt creator
 * Does not seem to work with LLVM 10 or higher. Proven to work with LLVM 8.
 * For specific `LLVM_ARCHIVE`, you can find here: https://download.qt.io/development_releases/prebuilt/libclang/.
 * For specific `QT_ARCHIVE_PKG`, and `QT_ARCHIVE_URL` you can find here: https://download.qt.io/archive/qt
-* For specific `QT_CREATOR_VERSION` you can find here:https://download.qt.io/archive/qtcreator/
+* For specific `QT_CREATOR_VERSION` you can find here: https://download.qt.io/archive/qtcreator/
 
 The following command shows an example of building the TICS Qt Creator plugin for target platform Qt Creator 4.12.2 based on Qt 5.14.2:
 ```
