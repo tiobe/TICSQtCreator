@@ -49,7 +49,7 @@ Build Qt Creator from Sources
 
 Building the Qt Creator Plugin
 --------------------------------------
-- For building the plugin you need Qt Creator installed(This Qt creator should be using the same version of Qt and compiler version as the one you build from sources)
+- For building the plugin you need Qt Creator installed (This Qt creator should be using the same version of Qt and compiler version as the one you build from sources)
 - In the plugin's .pro file update the location of the QT Creator source location and the QT Creator build location that you created before
  <pre>
     ## Either set the IDE_SOURCE_TREE when running qmake,
@@ -72,7 +72,6 @@ Using Dockerfile to Automate the Qt Creator Plugin Build
 You can use the provided Dockerfile to build and get a working TICS Qt Creator Plugin artifact for a specific target platform.
 Note that this Dockerfile is written for target platform Qt Creator 4.x.x based on Qt 5.x.x. Target platforms with different major versions than those may require different build steps.
 
-You can use the provided Dockerfile to build and get a working TICS Qt Creator Plugin artifact for specific target platforms.
 The arguments used for parameterizing specific target platforms and their values are shown below:
 
 <pre>
@@ -86,12 +85,30 @@ QT_CREATOR_VERSION=4.11.0
 TICS_QT_GIT_BRANCH=main
 </pre>
 
-You can change the values of these arguments based on your desired target platforms when building the Dockerfile. The following command shows an example of building the TICS Qt Creator plugin for target platform Qt Creator 4.12.2 based on Qt 5.14.2:
+
+You can change the values of these arguments based on your desired target platforms when building the Dockerfile.
+
+Some remarks for building TICS Qt Creator plugin for target platforms Qt creator 4.x.x based on Qt 5.x.x:
+* Does not work with Gcc 9 and higher. Seems to work with Gcc 5-7.
+* Ubuntu 22.04 onwards only support Gcc 9 and higher. Therefore use Ubuntu 20.04 or lower.
+* Does not seem to work with LLVM 10 or higher. Proven to work with LLVM 8.
+* For specific `LLVM_ARCHIVE`, you can find here: https://download.qt.io/development_releases/prebuilt/libclang/.
+* For specific `QT_ARCHIVE_PKG`, and `QT_ARCHIVE_URL` you can find here: https://download.qt.io/archive/qt
+* For specific `QT_CREATOR_VERSION` you can find here:https://download.qt.io/archive/qtcreator/
+
+The following command shows an example of building the TICS Qt Creator plugin for target platform Qt Creator 4.12.2 based on Qt 5.14.2:
 ```
 docker build --build-arg GCC_VERSION=7 --build-arg QT_ARCHIVE_PKG=qt-everywhere-src-5.14.2 --build-arg QT_ARCHIVE_URL=https://download.qt.io/archive/qt/5.14/5.14.2/single/qt-everywhere-src-5.14.2.tar.xz  --build-arg QT_CREATOR_VERSION=4.12.2 -t ticsqtcreator:4-12-2 .
 ```
-The command above will create an image with the tag `ticsqtcreator:4-12-2`. The TICS Qt Creator plugin artifact will be located in `/qt-creator-build/lib/qtcreator/plugins/libTICSQtCreator.so`. To get the artifact from the created image to the host file system, you can first run a container from the created image, then perform a docker copy as shown in the following commands examples:
+The command above will create an image with the tag `ticsqtcreator:4-12-2`. 
 
+The TICS Qt Creator plugin artifact will be located in `/qt-creator-build/lib/qtcreator/plugins/libTICSQtCreator.so`. To get the artifact from the created image to the host file system, you can first run a container from the created image, then perform a docker copy as shown in the following commands and their examples:
+
+```
+docker run -it -d --name <container_name> <image_id>
+docker cp <container_name>:<path_to_plugin_artifact_inside_container> <path_to_target_location_in_host_file_system>
+```
+Examples:
 ```
 docker run -it -d --name ticsqtcreator fddf7a31202a
 docker cp ticsqtcreator:/qt-creator-build/lib/qtcreator/plugins/libTICSQtCreator.so /home/leila/Development/QtDocker
