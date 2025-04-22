@@ -1,4 +1,5 @@
 DEFINES += TICSQTCREATOR_LIBRARY
+QMAKE_CXXFLAGS += "-fno-sized-deallocation"
 
 # TICSQtCreator files
 
